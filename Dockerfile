@@ -1,4 +1,7 @@
-FROM gcc:14-bookworm AS build
+FROM debian:bookworm-slim AS build
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends g++ \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
 COPY backend/main.cpp ./main.cpp
 RUN g++ -std=c++17 -O2 -Wall -Wextra -o /maze_server main.cpp
