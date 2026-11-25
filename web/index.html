@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101510" />
+  <title>Maze Lab — Smart Maze Solver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Maze Lab home"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>MAZE<span class="brand-light">LAB</span></span></a>
+      <div class="top-meta"><span class="live-dot"></span><span>C++ ENGINE <b>ONLINE</b></span><span class="meta-divider"></span><span>DAA PROJECT <b>2026</b></span></div>
+      <a class="github-link" href="#about">ABOUT <span>↗</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> DESIGN &amp; ANALYSIS OF ALGORITHMS</div>
+          <h1>Find your way.<br /><span>Understand the search.</span></h1>
+          <p>Watch four classic pathfinding algorithms think out loud. Generate a maze, choose a strategy, and see every decision unfold.</p>
+          <div class="hero-tags"><span>01 / GENERATE</span><span>02 / EXPLORE</span><span>03 / COMPARE</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="art-grid"></div><div class="art-route"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="art-start">S</div><div class="art-end">E</div><div class="art-coordinate">PATH / FOUND</div></div>
+      </section>
+
+      <section class="workspace" aria-label="Interactive maze solver">
+        <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> THE PLAYGROUND</div><h2>Maze <span>workbench</span></h2></div><div class="workspace-tip"><span class="tip-icon">↗</span> Click cells to draw walls</div></div>
+        <div class="solver-layout">
+          <aside class="control-panel">
+            <div class="panel-block algorithm-block">
+              <div class="panel-label"><span>01</span> CHOOSE ALGORITHM</div>
+              <div class="algorithm-list" role="group" aria-label="Pathfinding algorithm">
+                <button class="algorithm-card" data-algorithm="A*" aria-pressed="true"><span class="algorithm-icon">✳</span><span class="algorithm-info"><b>A* Search</b><small>Heuristic · optimal</small></span><span class="algorithm-check">✓</span></button>
+                <button class="algorithm-card" data-algorithm="BFS" aria-pressed="false"><span class="algorithm-icon">◉</span><span class="algorithm-info"><b>Breadth-first</b><small>Queue · shortest path</small></span><span class="algorithm-check">✓</span></button>
+                <button class="algorithm-card" data-algorithm="Dijkstra" aria-pressed="false"><span class="algorithm-icon">⌁</span><span class="algorithm-info"><b>Dijkstra</b><small>Priority queue · optimal</small></span><span class="algorithm-check">✓</span></button>
+                <button class="algorithm-card" data-algorithm="DFS" aria-pressed="false"><span class="algorithm-icon">↟</span><span class="algorithm-info"><b>Depth-first</b><small>Stack · any path</small></span><span class="algorithm-check">✓</span></button>
+              </div>
+            </div>
+            <div class="panel-block size-block">
+              <div class="panel-label"><span>02</span> MAZE SIZE <b id="sizeValue">21 × 31</b></div>
+              <input id="sizeSlider" class="size-slider" type="range" min="15" max="31" step="2" value="21" aria-label="Maze rows" />
+              <div class="slider-labels"><span>SMALL</span><span>LARGE</span></div>
+            </div>
+            <div class="panel-block">
+              <div class="panel-label"><span>03</span> PLAYBACK SPEED <b id="speedValue">1×</b></div>
+              <div class="speed-options"><button data-speed="80">0.5×</button><button class="selected" data-speed="32">1×</button><button data-speed="8">3×</button></div>
+            </div>
+            <div class="panel-actions"><button id="generateBtn" class="button-secondary"><span>⤨</span> New maze</button><button id="solveBtn" class="button-primary"><span>▶</span> Find a path</button></div>
+            <button id="clearBtn" class="clear-button">Clear walls <span>↺</span></button>
+          </aside>
+
+          <div class="maze-panel">
+            <div class="maze-toolbar"><div class="maze-status"><span class="status-pulse"></span><span id="statusText" aria-live="polite">READY TO EXPLORE</span></div><div class="maze-tools"><button id="pauseBtn" class="icon-button" title="Pause or resume" aria-label="Pause or resume" disabled>Ⅱ</button><button id="resetBtn" class="icon-button" title="Reset maze" aria-label="Reset maze">↻</button><span class="tool-divider"></span><button id="fullscreenBtn" class="icon-button" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button></div></div>
+            <div id="mazeViewport" class="maze-viewport"><div id="mazeGrid" class="maze-grid" role="grid" aria-label="Maze grid"></div></div>
+            <div class="maze-legend"><span><i class="legend-start"></i> START</span><span><i class="legend-end"></i> END</span><span><i class="legend-wall"></i> WALL</span><span><i class="legend-visited"></i> EXPLORED</span><span><i class="legend-path"></i> FINAL PATH</span><span class="drag-hint">DRAG TO DRAW</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results-section"><div class="section-heading compact"><div><div class="eyebrow"><span class="eyebrow-line"></span> LIVE ANALYSIS</div><h2>Search <span>report</span></h2></div><div id="resultBadge" class="result-badge">AWAITING RUN</div></div>
+        <div class="metrics-grid"><article class="metric-card"><div class="metric-top"><span>NODES EXPLORED</span><span class="metric-index">01</span></div><div class="metric-value" id="visitedMetric">—</div><div class="metric-foot">cells visited before reaching goal</div><div class="metric-track"><i id="visitedBar"></i></div></article><article class="metric-card"><div class="metric-top"><span>PATH LENGTH</span><span class="metric-index">02</span></div><div class="metric-value"><span id="pathMetric">—</span><small>steps</small></div><div class="metric-foot">shortest route through this maze</div><div class="path-spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article><article class="metric-card"><div class="metric-top"><span>COMPUTE TIME</span><span class="metric-index">03</span></div><div class="metric-value"><span id="timeMetric">—</span><small>ms</small></div><div class="metric-foot">measured by the C++ solver</div><div class="time-visual"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></article></div>
+      </section>
+
+      <section id="about" class="concept-section"><div class="concept-copy"><div class="eyebrow"><span class="eyebrow-line"></span> UNDER THE HOOD</div><h2>A maze is just<br /><span>a graph in disguise.</span></h2><p>Each open cell becomes a vertex. Each passage becomes an edge. Then the search begins.</p><div class="formula"><span>f(n)</span><b>=</b><span class="formula-g">g(n)</span><b>+</b><span class="formula-h">h(n)</span><small>A* PRIORITY</small></div></div><div class="concept-cards"><article><span class="concept-icon">⌗</span><div><h3>Recursive backtracker</h3><p>A randomized depth-first walk carves a perfect maze in $O(V)$ time.</p></div><span class="concept-number">01</span></article><article><span class="concept-icon">⤴</span><div><h3>Manhattan heuristic</h3><p>A* estimates the remaining distance without overestimating the true cost.</p></div><span class="concept-number">02</span></article><article><span class="concept-icon">◫</span><div><h3>Real C++ engine</h3><p>The algorithms run in a native C++ backend. The browser animates its results.</p></div><span class="concept-number">03</span></article></div></section>
+      <section class="complexity"><div class="complexity-head"><div><div class="eyebrow"><span class="eyebrow-line"></span> ALGORITHM SNAPSHOT</div><h2>Same maze. <span>Different minds.</span></h2></div><p>What is the trade-off<br />between speed and certainty?</p></div><div class="table-wrap"><table><thead><tr><th>ALGORITHM</th><th>STRATEGY</th><th>TIME*</th><th>SHORTEST PATH</th></tr></thead><tbody><tr><td><span class="table-mark astar">✳</span> A* Search</td><td>Heuristic + priority queue</td><td>O(E log V)</td><td><span class="yes">✓ &nbsp;Yes</span></td></tr><tr><td><span class="table-mark bfs">◉</span> Breadth-first</td><td>Queue · level by level</td><td>O(V + E)</td><td><span class="yes">✓ &nbsp;Yes</span></td></tr><tr><td><span class="table-mark dijkstra">⌁</span> Dijkstra</td><td>Priority queue · path cost</td><td>O((V + E) log V)</td><td><span class="yes">✓ &nbsp;Yes</span></td></tr><tr><td><span class="table-mark dfs">↟</span> Depth-first</td><td>Stack · dive deep</td><td>O(V + E)</td><td><span class="no">— &nbsp;Not guaranteed</span></td></tr></tbody></table></div><div class="complexity-note">* V = open cells, E = connecting passages. Complexity depends on the graph representation.</div></section>
+    </main>
+    <footer><a class="brand footer-brand" href="#top"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>MAZE<span class="brand-light">LAB</span></span></a><span>DESIGN &amp; ANALYSIS OF ALGORITHMS <i>·</i> SMART MAZE SOLVER</span><a href="#top" class="back-top">BACK TO TOP ↑</a></footer>
+  </div>
+</body>
+</html>
